@@ -15,7 +15,7 @@ class BinaryTree {
 	}
 
 	contains(data) {
-
+		return this.containsNode(data, this.root);
 	}
 
 	remove(data) {
@@ -28,6 +28,20 @@ class BinaryTree {
 
 	isEmpty() {
 
+	}
+	
+	containsNode(data, currentNode) {
+		if (currentNode == null) {
+			return false;
+		}
+		else if (data < currentNode.data) {
+			return this.containsNode(data, currentNode.left);
+		}
+		else if (data > currentNode.data) {
+			return this.containsNode(data, currentNode.right);
+		}
+		
+		return true;
 	}
 	
 	insertNode(data, currentNode) {
