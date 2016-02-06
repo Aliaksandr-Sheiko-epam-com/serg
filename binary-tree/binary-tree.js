@@ -115,12 +115,10 @@ class BinaryTree {
     changeDirectChildNode(parentNode, childData, changeNode) {
         if (parentNode == null) {
             this.root = changeNode;
+        } else if (childData < parentNode.data) {
+            parentNode.left = changeNode;
         } else {
-            if (childData < parentNode.data) {
-                parentNode.left = changeNode;
-            } else {
-                parentNode.right = changeNode;
-            }
+            parentNode.right = changeNode;
         }
     }
 }
