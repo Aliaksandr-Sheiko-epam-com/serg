@@ -116,11 +116,11 @@ class BinaryTree {
 }
 
 class Utils {
-    static changeDirectChildNode(parentNode, data, newNode) {
+    static changeDirectChildNode(parentNode, data, changeNode) {
         if (data < parentNode.data) {
-            parentNode.left = newNode;
+            parentNode.left = changeNode;
         } else {
-            parentNode.right = newNode;
+            parentNode.right = changeNode;
         }
     }
 }
