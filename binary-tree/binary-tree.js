@@ -89,10 +89,7 @@ class BinaryTree {
                 parentX.right = x.right;
             }
 
-            x.left = currentNode.left;
-            x.right = currentNode.right;
-
-            this.changeDirectChildNode(parentNode, currentNode.data, x);
+            currentNode.data = x.data;
         }
     }
 
