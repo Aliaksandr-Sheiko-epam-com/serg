@@ -67,15 +67,13 @@ class BinaryTree {
 
         if (currentNode == null) {
             return;
-        } else if (parentNode == null) {
-            this.root = null;
         } else if (currentNode.left == null && currentNode.right == null) {
-            Utils.changeDirectChildNode(parentNode, data, null);
+            this.changeDirectChildNode(parentNode, data, null);
         } else if (currentNode.left == null || currentNode.right == null) {
             if (currentNode.left == null) {
-                Utils.changeDirectChildNode(parentNode, data, currentNode.right);
+                this.changeDirectChildNode(parentNode, data, currentNode.right);
             } else {
-                Utils.changeDirectChildNode(parentNode, data, currentNode.left);
+                this.changeDirectChildNode(parentNode, data, currentNode.left);
             }
         } else {
             var x = currentNode.right, parentX = currentNode;
@@ -94,7 +92,7 @@ class BinaryTree {
             x.left = currentNode.left;
             x.right = currentNode.right;
 
-            Utils.changeDirectChildNode(parentNode, data, x);
+            this.changeDirectChildNode(parentNode, currentNode.data, x);
         }
     }
 
@@ -113,14 +111,16 @@ class BinaryTree {
 
         return 1 + this.treeSize(currentNode.left) + this.treeSize(currentNode.right);
     }
-}
 
-class Utils {
-    static changeDirectChildNode(parentNode, data, changeNode) {
-        if (data < parentNode.data) {
-            parentNode.left = changeNode;
+    changeDirectChildNode(parentNode, childData, changeNode) {
+        if (parentNode == null) {
+            this.root = changeNode;
         } else {
-            parentNode.right = changeNode;
+            if (childData < parentNode.data) {
+                parentNode.left = changeNode;
+            } else {
+                parentNode.right = changeNode;
+            }
         }
     }
 }
