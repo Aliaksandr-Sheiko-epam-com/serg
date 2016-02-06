@@ -1,62 +1,126 @@
 'use strict';
 
 class BinaryTree {
-	
-	constructor() {
-		this.root = null;
-	}
 
-	insert(data) {
-		if (this.root == null) {
-			this.root = new Node(data, null, null);
-		} else {
-			this.insertNode(data, this.root);
-		}
-	}
+    constructor() {
+        this.root = null;
+    }
 
-	contains(data) {
-		return this.containsNode(data, this.root);
-	}
+    insert(data) {
+        var currentNode = this.root, parentNode = null;
 
-	remove(data) {
+        while (currentNode != null) {
+            parentNode = currentNode;
+            if (data < currentNode.data) {
+                currentNode = currentNode.left;
+            } else {
+                currentNode = currentNode.right;
+            }
+        }
 
-	}
+        var newNode = new Node(data, null, null);
 
-	size() {
+        if (parentNode == null) {
+            this.root = newNode;
+        } else {
+            if (data < parentNode.data) {
+                parentNode.left = newNode;
+            } else {
+                parentNode.right = newNode;
+            }
+        }
+    }
 
-	}
+    contains(data) {
+        var currentNode = this.root;
 
-	isEmpty() {
+        while (currentNode != null) {
+            if (currentNode.data == data) {
+                return true;
+            }
 
-	}
-	
-	containsNode(data, currentNode) {
-		if (currentNode == null) {
-			return false;
-		}
-		else if (data < currentNode.data) {
-			return this.containsNode(data, currentNode.left);
-		}
-		else if (data > currentNode.data) {
-			return this.containsNode(data, currentNode.right);
-		}
-		
-		return true;
-	}
-	
-	insertNode(data, currentNode) {
-		if (data < currentNode.data) {
-			if (currentNode.left == null) {
-				currentNode.left = new Node(data, null, null);
-			} else {
-				this.insertNode(data, currentNode.left);
-			}
-		} else {
-			if (currentNode.right == null) {
-				currentNode.right = new Node(data, null, null);
-			} else {
-				this.insertNode(data, currentNode.right);
-			}
-		}
-	}
+            if (data < currentNode.data) {
+                currentNode = currentNode.left;
+            } else {
+                currentNode = currentNode.right;
+            }
+        }
+
+        return false;
+    }
+
+    remove(data) {
+        var currentNode = this.root, parentNode = null;
+
+        while (currentNode != null) {
+            if (data == currentNode.data) {
+                break;
+            }
+
+            parentNode = currentNode;
+            if (data < currentNode.data) {
+                currentNode = currentNode.left;
+            } else {
+                currentNode = currentNode.right;
+            }
+        }
+
+        if (currentNode == null) {
+            return;
+        } else if (parentNode == null) {
+            this.root = null;
+        } else if (currentNode.left == null && currentNode.right == null) {
+            Utils.changeDirectChildNode(parentNode, data, null);
+        } else if (currentNode.left == null || currentNode.right == null) {
+            if (currentNode.left == null) {
+                Utils.changeDirectChildNode(parentNode, data, currentNode.right);
+            } else {
+                Utils.changeDirectChildNode(parentNode, data, currentNode.left);
+            }
+        } else {
+            var x = currentNode.right, parentX = currentNode;
+
+            while (x.left != null) {
+                parentX = x;
+                x = x.left;
+            }
+
+            if (parentX != currentNode) {
+                parentX.left = x.right;
+            } else {
+                parentX.right = x.right;
+            }
+
+            x.left = currentNode.left;
+            x.right = currentNode.right;
+
+            Utils.changeDirectChildNode(parentNode, data, x);
+        }
+    }
+
+    size() {
+        return this.treeSize(this.root);
+    }
+
+    isEmpty() {
+        return this.root == null;
+    }
+
+    treeSize(currentNode) {
+        if (currentNode == null) {
+            return 0;
+        }
+
+        return 1 + this.treeSize(currentNode.left) + this.treeSize(currentNode.right);
+    }
+}
+
+class Utils {
+    static changeDirectChildNode(parentNode, data, newNode) {
+        if (data < parentNode.data) {
+            parentNode.left = newNode;
+        } else {
+            parentNode.right = newNode;
+        }
+    }
 }
